@@ -19,5 +19,15 @@ function onsubmit(e){
     const li = document.createElement('li');
     li.appendChild(document.createTextNode(`${username.value} - ${useremail.value} - ${usernumber.value}`));
     userrecords.appendChild(li);
+
+    const deleteButton = document.createElement('input');
+    deleteButton.type = 'button';
+    deleteButton.value = 'Delete';
+    deleteButton.onclick = () => {
+        // localStorage.removeItem();
+        userrecords.removeChild(li)
+    }
+    li.appendChild(deleteButton);
+    userrecords.appendChild(li);
 }
 
