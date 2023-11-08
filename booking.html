@@ -55,8 +55,8 @@
             .then((res)=>{
                 console.log(res)
                 for(var i=0;i<res.data.length;i++){
-                    showuseronscreen(res.data[i])
-
+                    shownewuseronscreen(res.data[i])
+                    // to print on the screen
                 }
             })
             .catch((err)=>{
@@ -64,7 +64,7 @@
             })
 
             // reading data from local storage
-            
+
             // const localstorageobj = localStorage;
             // const localstoragekeys = Object.keys(localstorageobj)
 
@@ -77,19 +77,47 @@
         })
 
         function shownewuseronscreen(user){
-            document.getElementById('email').value = '';
-            document.getElementById('username').value = '';
-            document.getElementById('phonenumber').value = '';
+        
+            const childelement = document.createElement('li');
+
+            document.getElementById('emailinputtag').value = '';
+            document.getElementById('usernameinputtag').value = '';
+            document.getElementById('phoneNumberinputtag').value = '';
             if(localStorage.getItem(user.email) !== null){
                 removeuserfromscreen(user.email)
+            }
+            const parentNode = document.getElementById('listofitems');
+            const childHTML = `<li id = ${user._id} > ${user.name} -${user.email}-${user.phoneNumber}
+                <button onclicK = deleteuser('${user._id}') > Delete User </button>
+                <button onclick = edituser('${user._id} , ${user.name},${user.email},${user.phoneNumber}')> edit user </button>
+                </li>`
+            parentNode.innerHTML = parentNode.innerHTML+childHTML;
+            // parentelement.appendChild(childelement);
+
+        }
+
+        function deleteuser(userid){
+            axios.delete(`https://crudcrud.com/api/49ac5cbb515b4ca7a0c1fa0027bfa005/appointmentdata/${userid}`)
+            .then((res)=>{
+                removeuserfromscreen(userid)
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+        }
+
+        function removeuserfromscreen(emailId){
+            const parentNode = document.getElementById('listofitems');
+            const childNodeToBeDelete = document.getElementById(emailId);
+            if(childNodeToBeDelete){
+                parentNode.removeChild(childNodeToBeDelete)
             }
         }
         function showuseronscreen(obj){
             const parentelement = document.getElementById('listofitems')
-            const childelement = document.createElement('li')
+            const childelement = document.createElement('li');
             childelement.textContent = obj.name + ' - ' + obj.email + ' - ' + obj.phoneNumber
               
-
             // delete
             const deleteButton = document.createElement('input')
             deleteButton.type = "button"
@@ -98,7 +126,7 @@
                 localStorage.removeItem(obj.email)
                 parentelement.removeChild(childelement)
             }
-
+        
             // edit
             const editButton = document.createElement('input')
             editButton.type = "button"
@@ -109,9 +137,7 @@
                 document.getElementById('usernameinputtag').value = obj.name
                 document.getElementById('emailinputtag').value = obj.email
                 document.getElementById('phoneNumberinputtag').value = obj.phoneNumber
-
             }
-
             childelement.appendChild(editButton)
             childelement.appendChild(deleteButton)
             parentelement.appendChild(childelement);
