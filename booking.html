@@ -105,7 +105,6 @@
                 console.log(err)
             })
         }
-
         function removeuserfromscreen(emailId){
             const parentNode = document.getElementById('listofitems');
             const childNodeToBeDelete = document.getElementById(emailId);
@@ -113,6 +112,28 @@
                 parentNode.removeChild(childNodeToBeDelete)
             }
         }
+        function edituser(user){
+            axios.put(`https://crudcrud.com/api/49ac5cbb515b4ca7a0c1fa0027bfa005/appointmentdata/${userid}`)
+            .then((res)=>{
+                removeuserfromscreen(user)
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
+        }
+        function removeuserfromscreen(emailId){
+            const parentNode = document.getElementById('listofitems');
+            const childNodeToBeDelete = document.getElementById(emailId);
+            if(childNodeToBeDelete){
+                parentNode.removeChild(childNodeToBeDelete)
+                document.getElementById('usernameinputtag').value = user.name
+                document.getElementById('emailinputtag').value = user.email
+                document.getElementById('phoneNumberinputtag').value = user.phoneNumber
+            }
+        }
+
+        
+
         function showuseronscreen(obj){
             const parentelement = document.getElementById('listofitems')
             const childelement = document.createElement('li');
