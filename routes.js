@@ -18,7 +18,7 @@ const requestHeadler = (req,res)=>{
         });
         return req.on('end',()=>{
             const parsedbody  = Buffer.concat(body).toString();
-            const message = parsedbody.split('=')[1];
+            const message = parsedbody.split('=')[0];
             // console.log(parsedbody);
             fs.writeFile('message.txt', message,(err)=>{
                 res.statusCode = 302;
@@ -44,6 +44,8 @@ const requestHeadler = (req,res)=>{
 
 // module.exports.handler = requestHeadler;
 // module.exports.someText = 'some hard coded text';
+
+
 
 exports.handler = requestHeadler;
 exports.someText = 'some hard coded text';
